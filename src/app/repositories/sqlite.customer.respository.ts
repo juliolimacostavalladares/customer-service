@@ -28,6 +28,21 @@ class SQLiteCustomerRepository implements ICustomerRepository {
       return false
     }
   }
+
+  async delete(id: string): Promise<boolean> {
+    try {
+      await this.prisma.customer.delete({where: { id }})
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  async findById(id: string): Promise<Customer> {
+    const customer = await this.prisma.customer.findFirst({where: { id }})
+  
+    return customer as Customer
+  }
 }
 
 export { SQLiteCustomerRepository }
