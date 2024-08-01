@@ -10,9 +10,9 @@ class CreateCustomerUseCase {
 
   async execute({ id, email, name, password, role }: CreateCustomerDTO) {
 
-    const customerAlreadyExists = await this.customerRepository.findByEmail(email)
+    const emailAlreadyExists = await this.customerRepository.findByEmail(email)
 
-    if(customerAlreadyExists) throw new Error(CustomerErrorType.CustomerAlreadyExists)
+    if(emailAlreadyExists) throw new Error(CustomerErrorType.CustomerAlreadyExists)
 
     const customer = new Customer({
       id, 
