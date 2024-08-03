@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { CreateCustomerUseCase } from "../usecase/create.customer.usecase";
-import { Customer } from "../entities/customer.entities";
-import { CustomerErrorType } from "../enums/customer.erros.enum";
+import { CreateCustomerUseCase } from "../../app/usecase/create.customer.usecase";
+import { Customer } from "../../domain/entities/customer.entities";
+import { CustomerErrorType } from "../../domain/enums/customer.erros.enum";
 
 class CreateCustomerController {
   constructor(
