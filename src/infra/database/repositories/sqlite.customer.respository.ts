@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Customer } from "../entities/customer.entities";
+import { Customer } from "../../../domain/entities/customer.entities";
 import { ICustomerRepository } from "./customer.repository";
 
 class SQLiteCustomerRepository implements ICustomerRepository {

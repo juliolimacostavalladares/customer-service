@@ -1,7 +1,7 @@
-import { CreateCustomerDTO } from "../dtos/create.customer.dto";
-import { Customer } from "../entities/customer.entities";
-import { CustomerErrorType } from "../enums/customer.erros.enum";
-import { ICustomerRepository } from "../repositories/customer.repository";
+import { CreateCustomerDTO } from "../../domain/dtos/create.customer.dto";
+import { Customer } from "../../domain/entities/customer.entities";
+import { CustomerErrorType } from "../../domain/enums/customer.erros.enum";
+import { ICustomerRepository } from "../../infra/database/repositories/customer.repository";
 
 class CreateCustomerUseCase {
   constructor(
