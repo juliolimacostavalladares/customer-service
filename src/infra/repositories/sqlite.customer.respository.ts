@@ -12,29 +12,21 @@ class SQLiteCustomerRepository implements ICustomerRepository {
     return customer as Customer
   }
 
-  async save({ id, email, name, password, role}: Customer): Promise<boolean> {
+  async save({ id, email, name, password, role}: Customer): Promise<Customer> {
     try {
-      await this.prisma.customer.create({
+      const customer = await this.prisma.customer.create({
         data: {
           id: id as string,
           email,
           name,
-          password,
+          password: password as string,
           role
         }
       })
-      return true
+      
+      return customer
     } catch (error) {
-      return false
-    }
-  }
-
-  async delete(id: string): Promise<boolean> {
-    try {
-      await this.prisma.customer.delete({where: { id }})
-      return true
-    } catch (error) {
-      return false
+      throw(error)
     }
   }
 

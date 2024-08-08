@@ -5,7 +5,7 @@ class Customer {
   public readonly id?: string
   public name: string
   public email: string
-  public password: string
+  public password?: string
   public role: CustomerRole
 
   constructor({ name, email, password, role }: Customer) {

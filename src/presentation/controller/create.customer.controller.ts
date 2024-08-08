@@ -1,33 +1,36 @@
 import { Request, Response } from "express";
 import { CreateCustomerUseCase } from "../../app/usecase/create.customer.usecase";
 import { Customer } from "../../domain/entities/customer.entities";
-import { CustomerErrorType } from "../../domain/enums/customer.erros.enum";
+import { ICustomResponse } from "../interface/custom.response";
 
 class CreateCustomerController {
   constructor(
     private createCustomerUseCase: CreateCustomerUseCase
   ) {}
 
-  async handle(request: Request, response: Response): Promise<Response> {
+  async handle(request: Request, response: Response<ICustomResponse<Customer>>): Promise<Response> {
     const { id, email, name, password, role } = request.body as Customer
     
     try {
-      await this.createCustomerUseCase.execute({
+      const customer = await this.createCustomerUseCase.execute({
         id: id as string, 
         email, 
         name, 
-        password, 
+        password: password as string, 
         role
       })
-
+      delete customer.password
+      
       return response.status(201).json({
-        message: "ok",
-       })
+        success: true,
+        message: "Success",
+        data: customer
+      })
     } catch (error) {
-     return response.status(400).json({
-      message: CustomerErrorType.UnableToCreateCustomers,
-      error: String(error)
-     })
+      return response.status(400).json({
+        success: false,
+        message: "" + error
+      })
     }
   }
 }
