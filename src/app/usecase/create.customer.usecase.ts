@@ -1,14 +1,14 @@
 import { CreateCustomerDTO } from "../../domain/dtos/create.customer.dto";
 import { Customer } from "../../domain/entities/customer.entities";
 import { CustomerErrorType } from "../../domain/enums/customer.erros.enum";
-import { ICustomerRepository } from "../../infra/database/repositories/customer.repository";
+import { ICustomerRepository } from "../repositories/customer.repository";
 
 class CreateCustomerUseCase {
   constructor(
     private customerRepository: ICustomerRepository
   ) { }
 
-  async execute({ id, email, name, password, role }: CreateCustomerDTO) {
+  async execute({ id, email, name, password, role }: CreateCustomerDTO): Promise<Customer> {
 
     const emailAlreadyExists = await this.customerRepository.findByEmail(email)
 
@@ -23,7 +23,7 @@ class CreateCustomerUseCase {
     }) 
 
     await this.customerRepository.save(customer)
-
+    return customer
   }
 }
 
