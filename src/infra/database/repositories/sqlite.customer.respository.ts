@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Customer } from "../../../domain/entities/customer.entities";
-import { ICustomerRepository } from "./customer.repository";
+import { ICustomerRepository } from "../../../app/repositories/customer.repository";
 
 class SQLiteCustomerRepository implements ICustomerRepository {
   private prisma = new PrismaClient()
@@ -23,15 +23,6 @@ class SQLiteCustomerRepository implements ICustomerRepository {
           role
         }
       })
-      return true
-    } catch (error) {
-      return false
-    }
-  }
-
-  async delete(id: string): Promise<boolean> {
-    try {
-      await this.prisma.customer.delete({where: { id }})
       return true
     } catch (error) {
       return false
