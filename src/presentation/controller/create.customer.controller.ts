@@ -16,10 +16,11 @@ class CreateCustomerController {
         id: id as string, 
         email, 
         name, 
-        password, 
+        password: password as string, 
         role
       })
-
+      delete customer.password
+      
       return response.status(201).json({
         success: true,
         message: "Success",

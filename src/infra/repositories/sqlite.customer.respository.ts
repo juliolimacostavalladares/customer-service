@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { Customer } from "../../../domain/entities/customer.entities";
-import { ICustomerRepository } from "../../../app/repositories/customer.repository";
+import { Customer } from "../../domain/entities/customer.entities";
+import { ICustomerRepository } from "../../app/repositories/customer.repository";
 
 class SQLiteCustomerRepository implements ICustomerRepository {
   private prisma = new PrismaClient()
@@ -12,20 +12,21 @@ class SQLiteCustomerRepository implements ICustomerRepository {
     return customer as Customer
   }
 
-  async save({ id, email, name, password, role}: Customer): Promise<boolean> {
+  async save({ id, email, name, password, role}: Customer): Promise<Customer> {
     try {
-      await this.prisma.customer.create({
+      const customer = await this.prisma.customer.create({
         data: {
           id: id as string,
           email,
           name,
-          password,
+          password: password as string,
           role
         }
       })
-      return true
+      
+      return customer
     } catch (error) {
-      return false
+      throw(error)
     }
   }
 

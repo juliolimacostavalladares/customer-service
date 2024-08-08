@@ -15,7 +15,7 @@ class AuthCustomerController {
       const token = await this.authCustomerUseCase.execute({
         email,
         name, 
-        password
+        password: password as string
       })
 
       return response.status(200).json({
@@ -28,7 +28,7 @@ class AuthCustomerController {
 
     } catch (error) {
       return response.status(403).json({
-        success: true,
+        success: false,
         message: "" + error
        })
     }
