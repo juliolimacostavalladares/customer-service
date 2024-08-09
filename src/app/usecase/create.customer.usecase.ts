@@ -1,29 +1,32 @@
 import { CreateCustomerDTO } from "../../domain/dtos/create.customer.dto";
 import { Customer } from "../../domain/entities/customer.entities";
 import { CustomerErrorType } from "../../domain/enums/customer.erros.enum";
-import { ICustomerRepository } from "../../infra/database/repositories/customer.repository";
+import { PasswordHashProvider } from "../../infra/providers/password.hesher.provider";
+import { ICustomerRepository } from "../repositories/customer.repository";
 
 class CreateCustomerUseCase {
   constructor(
-    private customerRepository: ICustomerRepository
+    private customerRepository: ICustomerRepository,
+    private passwordHashProvider: PasswordHashProvider
   ) { }
 
-  async execute({ id, email, name, password, role }: CreateCustomerDTO) {
+  async execute({ id, email, name, password }: CreateCustomerDTO): Promise<Customer> {
 
     const emailAlreadyExists = await this.customerRepository.findByEmail(email)
 
     if(emailAlreadyExists) throw new Error(CustomerErrorType.CustomerAlreadyExists)
+    
+    const passwordHashed = await this.passwordHashProvider.hashPassword(password)
 
     const customer = new Customer({
       id, 
       email, 
       name, 
-      password, 
-      role
+      password: passwordHashed, 
     }) 
 
     await this.customerRepository.save(customer)
-
+    return customer
   }
 }
 
