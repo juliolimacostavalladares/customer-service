@@ -12,7 +12,7 @@ class SQLiteCustomerRepository implements ICustomerRepository {
     return customer as Customer
   }
 
-  async save({ id, email, name, password, role}: Customer): Promise<Customer> {
+  async save({ id, email, name, password}: Customer): Promise<Customer> {
     try {
       const customer = await this.prisma.customer.create({
         data: {
@@ -20,7 +20,6 @@ class SQLiteCustomerRepository implements ICustomerRepository {
           email,
           name,
           password: password as string,
-          role
         }
       })
       
