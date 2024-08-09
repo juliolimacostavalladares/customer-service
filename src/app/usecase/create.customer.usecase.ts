@@ -10,7 +10,7 @@ class CreateCustomerUseCase {
     private passwordHashProvider: PasswordHashProvider
   ) { }
 
-  async execute({ id, email, name, password, role }: CreateCustomerDTO): Promise<Customer> {
+  async execute({ id, email, name, password }: CreateCustomerDTO): Promise<Customer> {
 
     const emailAlreadyExists = await this.customerRepository.findByEmail(email)
 
@@ -23,7 +23,6 @@ class CreateCustomerUseCase {
       email, 
       name, 
       password: passwordHashed, 
-      role
     }) 
 
     await this.customerRepository.save(customer)

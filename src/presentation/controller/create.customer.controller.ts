@@ -9,7 +9,7 @@ class CreateCustomerController {
   ) {}
 
   async handle(request: Request, response: Response<ICustomResponse<Customer>>): Promise<Response> {
-    const { id, email, name, password, role } = request.body as Customer
+    const { id, email, name, password } = request.body as Customer
     
     try {
       const customer = await this.createCustomerUseCase.execute({
@@ -17,7 +17,6 @@ class CreateCustomerController {
         email, 
         name, 
         password: password as string, 
-        role
       })
       delete customer.password
       
