@@ -6,7 +6,11 @@ import { JsonWebTokenProvider } from "./infra/jwt/providers/jwt.provider";
 import { AuthCustomerUseCase } from "./app/usecase/auth.customer.usecase";
 import { AuthCustomerController } from "./presentation/controller/auth.customer.controller";
 import { PasswordHashProvider } from "./infra/providers/password.hesher.provider";
+import { QueueSQSProvider } from "./infra/queue/provider/queue.sqs.provider";
+import aws from "./infra/aws/credentials/sqs/aws.credential.sqs";
 
+// Instance of SQS Provider
+const queueSQSProvider = new QueueSQSProvider(aws, aws.queueUrl)
 // Instance of SQLite Repository
 const sqliteCustomerRepository = new SQLiteCustomerRepository()
 
@@ -19,7 +23,8 @@ const passwordHashProvider = new PasswordHashProvider()
 // Instance Create Customer
 const createCustomerUseCase = new CreateCustomerUseCase(
   sqliteCustomerRepository,
-  passwordHashProvider
+  passwordHashProvider,
+  queueSQSProvider
 )
 const createCustomerController = new CreateCustomerController(
   createCustomerUseCase

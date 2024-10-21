@@ -1,3 +1,7 @@
+import dotenv  from "dotenv"
+dotenv.config();
+
+
 import { IJwtRepository } from "../repositories/jwt.repository";
 import JsonWebToken, { JwtPayload } from "jsonwebtoken";
 
@@ -6,7 +10,7 @@ class JsonWebTokenProvider implements IJwtRepository<JwtPayload>{
   private secretKey: string
   private expiresIn: string
 
-  constructor(secretKey = 'JULIOLIMA1225', expiresIn = '1h' ) {
+  constructor(secretKey = process.env.SECRET_KEY as string, expiresIn = '1h' ) {
     this.secretKey = secretKey
     this.expiresIn = expiresIn
   }
